@@ -1,6 +1,6 @@
-# lovevery-demo-robzr-backend
+# lovevery-demo-robzr
 ---
-backend component of Lovevery Demo app for @robzr
+Lovevery Demo app for @robzr
 
 # Overview
 This repo contains a simple "Hello World" Ruby on Rails app and supporting files,
@@ -21,25 +21,37 @@ and run a server instance.
 
 ## Kubernetes in Docker Desktop
 Deploying and running in Kubernetes in Docker Desktop requires a few more
-steps
+steps, and can be done with or without Terraform. Unless specified, all commands
+should be run from the top level directory of this repo.
 
 1. [Enable Kubernetes in Docker Desktop][1]
-2. [Install the Nginx Ingress Controller][2] - this can be done by running:
+2. Add the destination hostname to your local hosts file:
+```
+sudo sh -c 'echo "127.0.0.1\tlovevery-demo-robzr.local" >> /etc/hosts'
+```
+3. In the top level of the repository, make the app image:
+```
+make
+```
+
+### With Terraform
+1. Terraform can be used to deploy to Kubernetes by running the following from the
+`terraform` subdirectory:
+```
+terraform init
+terraform apply
+```
+2. Test by visiting [http://lovevery-demo-robzr.local](http://lovevery-demo-robzr.local)
+
+### Without Terraform
+1. [Install the Nginx Ingress Controller][2] - this can be done by running:
 ```
 helm install \
   --namespace kube-system \
   nginx ingress-nginx \
   --repo https://kubernetes.github.io/ingress-nginx
 ```
-3. Add the destination hostname to your local hosts file:
-```
-sudo sh -c 'echo "127.0.0.1\tlovevery-demo-robzr.local" >> /etc/hosts'
-```
-4. In the top level of the repository, make the app image:
-```
-make image
-```
-5. Deploy the Helm chart to Kubernetes
+2. Deploy the Helm chart to Kubernetes
 ```
 helm upgrade \
   --create-namespace \
@@ -48,7 +60,7 @@ helm upgrade \
   lovevery-demo-robzr \
   helm/lovevery-demo-robzr
 ```
-6. Test by visiting [http://lovevery-demo-robzr.local](http://lovevery-demo-robzr.local)
+3. Test by visiting [http://lovevery-demo-robzr.local](http://lovevery-demo-robzr.local)
 
 
 # Sources
