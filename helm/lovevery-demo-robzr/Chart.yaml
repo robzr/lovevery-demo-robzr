@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: "0.1.0"
+description: Lovevery Demo for @robzr
+name: lovevery-demo-robzr
+type: application
+version: 0.1.0
